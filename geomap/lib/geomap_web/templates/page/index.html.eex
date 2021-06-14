@@ -1,0 +1,28 @@
+<%
+
+result = Json.get("https://geocode.xyz","/51.50354,-0.12768?geoit=json")
+
+name = result["alt"]["loc"]["city"]
+lat = result["alt"]["loc"]["latt"]
+long = result["alt"]["loc"]["longt"]
+
+ %>
+
+
+<h1>City:<%= name %></h1>
+ <h2>緯度:<%= lat %></h2>
+ <h2>経度:<%= long %></h2>
+
+ <div id = "map"></div>
+
+<script>
+var map = L.map('map').setView([51.505, -0.09], 13);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+L.marker([<%= lat %>, <%= long %>]).addTo(map)
+    .bindPopup('<%= name %>')
+    .openPopup();
+</script>
